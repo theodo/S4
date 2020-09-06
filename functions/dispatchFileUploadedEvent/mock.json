@@ -1,0 +1,12 @@
+{
+  "Records": [
+    {
+      "s3": {
+        "bucket": { "name": "mockBucket" },
+        "object": {
+          "key": "mock.pdf"
+        }
+      }
+    }
+  ]
+}
