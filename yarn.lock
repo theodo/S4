@@ -59,6 +59,41 @@
   resolved "https://registry.yarnpkg.com/@kwsites/promise-deferred/-/promise-deferred-1.1.1.tgz#8ace5259254426ccef57f3175bc64ed7095ed919"
   integrity sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==
 
+"@middy/core@^1.0.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@middy/core/-/core-1.4.0.tgz#ef53fd3fe685fc3a2f14ddec88f70159428adc09"
+  integrity sha512-ek7sC1BVh11oPPoATrG44WDpqxws9dHnOY1Y2Kg/95+hCuIpH7mTWMf2ja3Hj5w81PVF9i/CmsIhK5RsOKNZVg==
+  dependencies:
+    once "^1.4.0"
+
+"@middy/http-error-handler@^1.0.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@middy/http-error-handler/-/http-error-handler-1.4.0.tgz#fc019b07e43d7eb83c1db4a23b07b03fc6d24eda"
+  integrity sha512-n6vAx6oyPxF2PLQKf9cQq7sV3YJuq9Ugy3QNjBUf3JbKEiZ8NU24T38hNaNzTFfTmeKiulGPVlyULbiUSVZ6lg==
+  dependencies:
+    http-errors "^1.6.3"
+
+"@middy/http-json-body-parser@^1.0.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@middy/http-json-body-parser/-/http-json-body-parser-1.4.0.tgz#01c360d4854f4da43e3594aba9b323c10bfcb688"
+  integrity sha512-jheXZkMkbPlE1KC5TpQ6vY03kSSpQxT66hCozXlboMEo2qZDaNJv4EtrNRVYo7eu/JxAVjLxTgtfB9rbmfJjvQ==
+  dependencies:
+    "@types/http-errors" "^1.6.1"
+    content-type "^1.0.4"
+    http-errors "^1.6.3"
+
+"@middy/validator@^1.0.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@middy/validator/-/validator-1.4.0.tgz#7ad60cb6a4f77d03453eb7af8e5525ac4cc11a67"
+  integrity sha512-6hTMbK50PogIPGHUX0JW1JYXCkSPSUZLaom/X73zDwC0RvKP4RvkEIa3amNGUUwfBweC/O6DlquvmSGAeWCNYQ==
+  dependencies:
+    "@types/http-errors" "^1.6.1"
+    ajv "^6.5.0"
+    ajv-errors "^1.0.1"
+    ajv-i18n "^3.3.0"
+    ajv-keywords "^3.2.0"
+    http-errors "^1.6.3"
+
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.3.tgz#3a582bdb53804c6ba6d146579c46e52130cf4a3b"
@@ -445,6 +480,11 @@
   resolved "https://registry.yarnpkg.com/@types/http-cache-semantics/-/http-cache-semantics-4.0.0.tgz#9140779736aa2655635ee756e2467d787cfe8a2a"
   integrity sha512-c3Xy026kOF7QOTn00hbIllV1dLR9hG9NkSrLQgCVs8NF6sBU+VGWjD3wLPhmh1TYAc7ugCFsvHYMN4VcBN1U1A==
 
+"@types/http-errors@^1.6.1":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@types/http-errors/-/http-errors-1.8.0.tgz#682477dbbbd07cd032731cb3b0e7eaee3d026b69"
+  integrity sha512-2aoSC4UUbHDj2uCsCxcG/vRMXey/m17bC7UwitVm5hn22nI8O8Y9iDpA76Orc+DWkQ4zZrOKEshCqR/jSuXAHA==
+
 "@types/json-schema@^7.0.3":
   version "7.0.6"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.6.tgz#f4c7ec43e81b319a9815115031709f26987891f0"
@@ -786,12 +826,17 @@ agent-base@6:
   dependencies:
     debug "4"
 
-ajv-errors@^1.0.0:
+ajv-errors@^1.0.0, ajv-errors@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ajv-errors/-/ajv-errors-1.0.1.tgz#f35986aceb91afadec4102fbd85014950cefa64d"
   integrity sha512-DCRfO/4nQ+89p/RK43i8Ezd41EqdGIU4ld7nGF8OQ14oc/we5rEntLCUa7+jrn3nn83BosfwZA0wb4pon2o8iQ==
 
-ajv-keywords@^3.1.0, ajv-keywords@^3.4.1, ajv-keywords@^3.5.2:
+ajv-i18n@^3.3.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/ajv-i18n/-/ajv-i18n-3.6.0.tgz#321313ce421b8a656e38e0cd2872393cab0c57ce"
+  integrity sha512-F21DzmzYq9aVtY8CGGtlnQDy3rFMaFW2KRlMuCQp76KiPIkvqN+mpq5MI9EsgC0VFwj+jeLIsvVCvPOa1sobBQ==
+
+ajv-keywords@^3.1.0, ajv-keywords@^3.2.0, ajv-keywords@^3.4.1, ajv-keywords@^3.5.2:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-3.5.2.tgz#31f29da5ab6e00d1c2d329acf7b5929614d5014d"
   integrity sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==
@@ -810,6 +855,16 @@ ajv@^6.12.3:
   version "6.12.4"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.4.tgz#0614facc4522127fa713445c6bfd3ebd376e2234"
   integrity sha512-eienB2c9qVQs2KWexhkrdMLVDoIQCz5KSeLxwg9Lzk4DOfBtIK9PQwwufcsn1jjGuf9WZmqPMbGxOzfcuphJCQ==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    fast-json-stable-stringify "^2.0.0"
+    json-schema-traverse "^0.4.1"
+    uri-js "^4.2.2"
+
+ajv@^6.5.0:
+  version "6.12.6"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.6.tgz#baf5a62e802b07d977034586f8c3baf5adf26df4"
+  integrity sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==
   dependencies:
     fast-deep-equal "^3.1.1"
     fast-json-stable-stringify "^2.0.0"
@@ -1902,6 +1957,11 @@ content-disposition@^0.5.2:
   integrity sha512-ExO0774ikEObIAEV9kDo50o+79VCUdEB6n6lzKgGwupcVeRlhrj3qGAfwq8G6uBJjkqLrhT0qEYFcWng8z1z0g==
   dependencies:
     safe-buffer "5.1.2"
+
+content-type@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
+  integrity sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==
 
 cookiejar@^2.1.0:
   version "2.1.2"
@@ -3454,7 +3514,7 @@ http-cache-semantics@^4.0.0:
   resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.1.0.tgz#49e91c5cbf36c9b94bcfcd71c23d5249ec74e390"
   integrity sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==
 
-http-errors@^1.8.0:
+http-errors@^1.6.3, http-errors@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.8.0.tgz#75d1bbe497e1044f51e4ee9e704a62f28d336507"
   integrity sha512-4I8r0C5JDhT5VkvI47QktDW75rNlGVsUf/8hzjCC/wkWI/jdTRmBb9aI7erSG82r1bjKY3F6k28WnsVxB1C73A==
@@ -3989,10 +4049,10 @@ json-refs@^3.0.15:
     slash "^3.0.0"
     uri-js "^4.2.2"
 
-json-schema-to-ts@^0.1.10:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/json-schema-to-ts/-/json-schema-to-ts-0.1.10.tgz#00204676fa6a0d29fb7e837933117a842ff04a03"
-  integrity sha512-6WeRf9PutoTtGvOL7Jvdk3Z3mRN8XHnhJqizbqIJ0522YXqdv1eB9se8sTDa8r79U0kT+rD5iCZfEeZdrt2ujw==
+json-schema-to-ts@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/json-schema-to-ts/-/json-schema-to-ts-1.2.0.tgz#5ec828ad7c71943cb1583a32323e1f85f2237140"
+  integrity sha512-/51ifjNnPCG9qY79CnTe5PSQ1ZxSfWkhz0MPGDJY3Mn/pSq19WPqfR8D71Zd0uBavrP/iO/lsUgdgDykFpfz2w==
 
 json-schema-traverse@^0.4.1:
   version "0.4.1"

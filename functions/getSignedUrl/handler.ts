@@ -1,12 +1,17 @@
 import { S3 } from "aws-sdk";
 import { Forbidden, BadRequest } from "http-errors";
+import { FromSchema } from "json-schema-to-ts";
 
 import { getFileSizeLimit } from "./fileFormatRestrictions";
 import FileUploadToken from "../../libs/FileUploadTokenEntity";
+import { applyMiddlewares } from "../../libs/applyMiddlewares";
+import inputSchema from "../getSignedUrl/schema";
 
 const S3Client = new S3({ signatureVersion: "v4" });
 
-const getSignedUrl = async ({ queryStringParameters }) => {
+const getSignedUrl = async ({
+  queryStringParameters,
+}: FromSchema<typeof inputSchema>) => {
   const { uploadToken, filetype } = queryStringParameters;
   const { Item } = await FileUploadToken.get(
     {
@@ -48,4 +53,4 @@ const getSignedUrl = async ({ queryStringParameters }) => {
   });
 };
 
-export const main = getSignedUrl;
+export const main = applyMiddlewares(getSignedUrl, { inputSchema });
