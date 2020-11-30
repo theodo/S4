@@ -21,7 +21,7 @@ export const LSI = {
   },
 };
 
-export const CommonTable: AwsConfig.CloudFormationResource = {
+export const TokenTable: AwsConfig.CloudFormationResource = {
   Type: "AWS::DynamoDB::Table",
   Properties: {
     AttributeDefinitions: [

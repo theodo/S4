@@ -2,7 +2,7 @@ export default {
   handler: "functions/dispatchFileUploadedEvent/handler.main",
   environment: {
     EVENT_BUS_NAME: "${self:custom.eventBusName}",
-    COMMON_TABLE_NAME: "${self:custom.commonTableName}",
+    TOKEN_TABLE_NAME: "${self:custom.tokenTableName}",
   },
   events: [
     {

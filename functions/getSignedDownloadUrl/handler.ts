@@ -3,7 +3,7 @@ import { S3 } from "aws-sdk";
 
 const S3Client = new S3({ signatureVersion: "v4" });
 
-const getDownloadUrl = async ({
+const getSignedDownloadUrl = async ({
   filePrefix,
   filename,
 }: {
@@ -18,4 +18,4 @@ const getDownloadUrl = async ({
   };
 };
 
-export const main = getDownloadUrl;
+export const main = getSignedDownloadUrl;

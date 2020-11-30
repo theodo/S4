@@ -1,8 +1,8 @@
 export default {
-  handler: "functions/getSignedUrl/handler.main",
+  handler: "functions/getSignedUploadUrl/handler.main",
   environment: {
     BUCKET_NAME: "${self:custom.bucketName}",
-    COMMON_TABLE_NAME: "${self:custom.commonTableName}",
+    TOKEN_TABLE_NAME: "${self:custom.tokenTableName}",
   },
   events: [
     {

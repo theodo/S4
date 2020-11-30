@@ -6,16 +6,16 @@ import { DEFAULT_STAGE, HTTP_API_ID } from "./common.serverless";
 import { ref } from "./libs/cloudformation";
 import { Bucket } from "./resources/s3";
 import {
-  getSignedUrl,
+  getSignedUploadUrl,
+  getSignedDownloadUrl,
   dispatchFileUploadedEvent as dispatchFileUpload,
-  getDownloadUrl,
 } from "./functions/config";
-import { CommonTable } from "./resources/dynamodb";
+import { TokenTable } from "./resources/dynamodb";
 import { EventBridge } from "./resources/event-bridge";
 
 const cloudformationResources: AwsConfig.CloudFormationResources = {
   Bucket,
-  CommonTable,
+  TokenTable,
   EventBridge,
 };
 
@@ -45,7 +45,7 @@ const serverlessConfiguration: AwsConfig.Serverless = {
       },
       {
         Effect: "Allow",
-        Resource: [{ "Fn::GetAtt": ["CommonTable", "Arn"] }],
+        Resource: [{ "Fn::GetAtt": ["TokenTable", "Arn"] }],
         Action: ["dynamodb:Query", "dynamodb:GetItem", "dynamodb:DeleteItem"],
       },
       {
@@ -66,8 +66,8 @@ const serverlessConfiguration: AwsConfig.Serverless = {
     },
   },
   functions: {
-    getSignedUrl,
-    getDownloadUrl,
+    getSignedUploadUrl,
+    getSignedDownloadUrl,
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     dispatchFileUpload,
@@ -78,9 +78,9 @@ const serverlessConfiguration: AwsConfig.Serverless = {
       includeModules: true,
     },
     bucketName: ref(cloudformationResources, Bucket),
-    commonTableName: ref(cloudformationResources, CommonTable),
-    commonTableStreamArn: { "Fn::GetAtt": ["CommonTable", "StreamArn"] },
-    commonTableArn: { "Fn::GetAtt": ["CommonTable", "Arn"] },
+    tokenTableName: ref(cloudformationResources, TokenTable),
+    tokenTableStreamArn: { "Fn::GetAtt": ["TokenTable", "StreamArn"] },
+    tokenTableArn: { "Fn::GetAtt": ["TokenTable", "Arn"] },
     eventBusName: ref(cloudformationResources, EventBridge),
     eventBridgeArn: { "Fn::GetAtt": ["EventBridge", "Arn"] },
   }),
