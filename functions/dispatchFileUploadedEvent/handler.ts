@@ -51,7 +51,7 @@ export const main = async (event: S3Event): Promise<void> => {
       }
 
       const newEvent = {
-        Source: "files-api-events",
+        Source: "S4-events",
         DetailType: `${Item.ressourceName}_FILE_UPLOADED`,
         Detail: JSON.stringify({
           payload: {

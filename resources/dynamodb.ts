@@ -1,4 +1,4 @@
-import * as AwsConfig from "serverless/aws";
+import { AWS } from "@serverless/typescript";
 
 export enum KeyType {
   HASH = "HASH",
@@ -21,7 +21,7 @@ export const LSI = {
   },
 };
 
-export const CommonTable: AwsConfig.CloudFormationResource = {
+export const TokenTable: AWS["resources"]["Resources"]["value"] = {
   Type: "AWS::DynamoDB::Table",
   Properties: {
     AttributeDefinitions: [

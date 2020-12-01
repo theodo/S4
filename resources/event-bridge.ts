@@ -1,6 +1,6 @@
-import * as AwsConfig from "serverless/aws";
+import { AWS } from "@serverless/typescript";
 
-export const EventBridge: AwsConfig.CloudFormationResource = {
+export const EventBridge: AWS["resources"]["Resources"]["value"] = {
   Type: "AWS::Events::EventBus",
   Properties: { Name: "s4" },
 };
