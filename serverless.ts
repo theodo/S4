@@ -1,5 +1,5 @@
-import * as AwsConfig from "serverless/aws";
 import { merge } from "lodash";
+import { AWS } from "@serverless/typescript";
 
 import { DEFAULT_STAGE, HTTP_API_ID } from "./common.serverless";
 
@@ -13,7 +13,7 @@ import {
 import { TokenTable } from "./resources/dynamodb";
 import { EventBridge } from "./resources/event-bridge";
 
-const cloudformationResources: AwsConfig.CloudFormationResources = {
+const cloudformationResources: AWS["resources"]["Resources"] = {
   Bucket,
   TokenTable,
   EventBridge,
@@ -23,7 +23,7 @@ const cloudformationStageSpecificCustoms = {
   HTTP_API_ID,
 };
 
-const serverlessConfiguration: AwsConfig.Serverless = {
+const serverlessConfiguration: AWS = {
   service: "S4",
   frameworkVersion: ">=2.4.0",
   plugins: ["serverless-webpack", "serverless-pseudo-parameters"],
@@ -56,8 +56,6 @@ const serverlessConfiguration: AwsConfig.Serverless = {
     ],
     httpApi: {
       payload: "2.0",
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       cors: {
         allowedOrigins: ["http://localhost:3000"],
         allowedHeaders: ["Content-Type", "Authorization", "Origin"],
@@ -68,8 +66,6 @@ const serverlessConfiguration: AwsConfig.Serverless = {
   functions: {
     getSignedUploadUrl,
     getSignedDownloadUrl,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     dispatchFileUpload,
   },
   custom: merge(cloudformationStageSpecificCustoms, {

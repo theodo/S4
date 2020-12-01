@@ -1,6 +1,6 @@
-import * as AwsConfig from "serverless/aws";
+import { AWS } from "@serverless/typescript";
 
-export const Bucket: AwsConfig.CloudFormationResource = {
+export const Bucket: AWS["resources"]["Resources"]["value"] = {
   Type: "AWS::S3::Bucket",
   DeletionPolicy: "Retain",
   Properties: {

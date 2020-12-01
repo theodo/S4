@@ -340,6 +340,11 @@
     graphlib "^2.1.7"
     traverse "^0.6.6"
 
+"@serverless/typescript@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@serverless/typescript/-/typescript-2.14.0.tgz#79b04fd1d62622394bdc7c29e1d2f07f4ba91561"
+  integrity sha512-nL8jolUVHi6yxTwCxOymMsun2mtsG2osOYtSmirjyRllJZBQ79BESjoMPNmKR0ZDWyxjzPLP7rTe7XtTVeZvJA==
+
 "@serverless/utils-china@^1.0.11":
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/@serverless/utils-china/-/utils-china-1.0.11.tgz#368003260ccd1df55f7477da50d0b606f157e58b"
@@ -566,11 +571,6 @@
   integrity sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==
   dependencies:
     "@types/node" "*"
-
-"@types/serverless@^1.78.1":
-  version "1.78.11"
-  resolved "https://registry.yarnpkg.com/@types/serverless/-/serverless-1.78.11.tgz#da0f34dc14d3c485f703f753ee55f11af061ca83"
-  integrity sha512-wW40N/au6iPVmX0fu4jA6k2+oXzjlPevGV7OkDjrKtxE/xyX4CeHEP/ZPFAc4PItDZXU+vTi3sDKUs4SdUzEqg==
 
 "@types/tough-cookie@*":
   version "4.0.0"
@@ -1182,7 +1182,7 @@ aws-sdk@^2.747.0:
     uuid "3.3.2"
     xml2js "0.4.19"
 
-aws-sdk@^2.799.0:
+aws-sdk@^2.800.0:
   version "2.800.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.800.0.tgz#634d4a8982a4ce1e2e77252c36d81180d05c5d9b"
   integrity sha512-1vxT8h2iFFaxfn+onMIdL/L+OcIG6G4BUzRt4wuvQzwbKArRy0fUN2d6E7aoM74wl8VlNIMTxBLCqxDnfVeVxQ==
@@ -6082,10 +6082,10 @@ serverless-webpack@^5.3.2:
   optionalDependencies:
     ts-node ">= 8.3.0"
 
-serverless@^2.13.0:
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/serverless/-/serverless-2.13.0.tgz#f6c7d2760daf071a2b4323bbe2c4e3efb5d309de"
-  integrity sha512-MOz0JYlPrWGwuyVUIncyaNRSlwOzVUFj5T/ITRjtO5PYXUWr+BB+yhZ97KoOhuL/hVnQ7ZjsmYgOvzo8hHwv9w==
+serverless@^2.14.0:
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/serverless/-/serverless-2.14.0.tgz#f46f54db19fedd51b04338f91b8401d8409ccceb"
+  integrity sha512-c3PRJPQqRmg2NRIcv3c0iD0XZbrJsEczWdSLXwi8AGdcokIbvjTM6fXOsq7i0nhL/BYyaib1O9WazEgmvpDGDw==
   dependencies:
     "@serverless/cli" "^1.5.2"
     "@serverless/components" "^3.4.2"
@@ -6094,7 +6094,7 @@ serverless@^2.13.0:
     ajv "^6.12.6"
     ajv-keywords "^3.5.2"
     archiver "^5.1.0"
-    aws-sdk "^2.799.0"
+    aws-sdk "^2.800.0"
     bluebird "^3.7.2"
     boxen "^4.2.0"
     cachedir "^2.3.0"
