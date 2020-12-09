@@ -7,7 +7,7 @@ export const Bucket: AWS["resources"]["Resources"]["value"] = {
     CorsConfiguration: {
       CorsRules: [
         {
-          AllowedOrigins: ["http://localhost:3000"],
+          AllowedOrigins: ["*"],
           AllowedHeaders: ["*"],
           AllowedMethods: ["POST"],
         },

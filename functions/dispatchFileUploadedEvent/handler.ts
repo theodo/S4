@@ -4,6 +4,7 @@ import { isEmpty } from "lodash";
 import { S3 } from "aws-sdk";
 import FileType from "file-type";
 import { makeTokenizer } from "@tokenizer/s3";
+
 import FileUploadToken from "../../libs/FileUploadTokenEntity";
 
 const S3Client = new S3({ signatureVersion: "v4" });
@@ -41,7 +42,7 @@ export const main = async (event: S3Event): Promise<void> => {
       const { Item } = await FileUploadToken.get(
         {
           pk: FileUploadToken.name,
-          sk: uploadToken,
+          uploadToken,
         },
         { consistent: true }
       );

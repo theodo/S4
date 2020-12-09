@@ -19,7 +19,7 @@ const getSignedUploadUrl = async ({
   const { Item } = await FileUploadToken.get(
     {
       pk: FileUploadToken.name,
-      sk: uploadToken,
+      uploadToken,
     },
     { consistent: true }
   );
