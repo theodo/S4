@@ -1,7 +1,4 @@
-import { merge } from "lodash";
 import { AWS } from "@serverless/typescript";
-
-import { DEFAULT_STAGE, HTTP_API_ID } from "./common.serverless";
 
 import { ref } from "./libs/cloudformation";
 import { Bucket } from "./resources/s3";
@@ -19,10 +16,6 @@ const cloudformationResources: AWS["resources"]["Resources"] = {
   EventBridge,
 };
 
-const cloudformationStageSpecificCustoms = {
-  HTTP_API_ID,
-};
-
 const serverlessConfiguration: AWS = {
   service: "S4",
   frameworkVersion: ">=2.4.0",
@@ -31,7 +24,6 @@ const serverlessConfiguration: AWS = {
     name: "aws",
     runtime: "nodejs12.x",
     region: "eu-west-1",
-    stage: `\${opt:stage, '${DEFAULT_STAGE}'}`,
     environment: { AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1" },
     iamRoleStatements: [
       {
@@ -57,9 +49,9 @@ const serverlessConfiguration: AWS = {
     httpApi: {
       payload: "2.0",
       cors: {
-        allowedOrigins: ["http://localhost:3000"],
-        allowedHeaders: ["Content-Type", "Authorization", "Origin"],
-        allowedMethods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+        allowedOrigins: ["*"],
+        allowedHeaders: ["Content-Type", "Origin"],
+        allowedMethods: ["POST", "OPTIONS"],
       },
     },
   },
@@ -68,7 +60,7 @@ const serverlessConfiguration: AWS = {
     getSignedDownloadUrl,
     dispatchFileUpload,
   },
-  custom: merge(cloudformationStageSpecificCustoms, {
+  custom: {
     webpack: {
       webpackConfig: "./webpack.config.js",
       includeModules: true,
@@ -79,7 +71,7 @@ const serverlessConfiguration: AWS = {
     tokenTableArn: { "Fn::GetAtt": ["TokenTable", "Arn"] },
     eventBusName: ref(cloudformationResources, EventBridge),
     eventBridgeArn: { "Fn::GetAtt": ["EventBridge", "Arn"] },
-  }),
+  },
   resources: {
     Resources: cloudformationResources,
   },

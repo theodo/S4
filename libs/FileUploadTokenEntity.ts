@@ -6,7 +6,7 @@ const FileUploadToken = new Entity({
   name: "FileUploadToken",
   attributes: {
     pk: { partitionKey: true, hidden: true },
-    sk: { sortKey: true },
+    uploadToken: { sortKey: true },
     ressourceName: "string",
     ressourceId: "string",
     email: "string",

@@ -8,7 +8,7 @@ export default {
     {
       httpApi: {
         method: "GET",
-        path: "/api/get-signed-url",
+        path: "/api/get-signed-upload-url",
       },
     },
   ],
