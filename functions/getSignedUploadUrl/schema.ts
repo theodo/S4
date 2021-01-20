@@ -5,9 +5,9 @@ export default {
       type: "object",
       properties: {
         uploadToken: { type: "string" },
-        filetype: { type: "string" },
+        fileType: { type: "string" },
       },
-      required: ["uploadToken", "filetype"],
+      required: ["uploadToken", "fileType"],
     },
   },
   required: ["queryStringParameters"],

@@ -1,5 +1,5 @@
 import { S3 } from "aws-sdk";
-import { Forbidden, BadRequest } from "http-errors";
+import createHttpError from "http-errors";
 import { FromSchema } from "json-schema-to-ts";
 import middy from "@middy/core";
 import jsonBodyParser from "@middy/http-json-body-parser";
@@ -15,7 +15,7 @@ const S3Client = new S3({ signatureVersion: "v4" });
 const getSignedUploadUrl = async ({
   queryStringParameters,
 }: FromSchema<typeof inputSchema>) => {
-  const { uploadToken, filetype } = queryStringParameters;
+  const { uploadToken, fileType } = queryStringParameters;
   const { Item } = await FileUploadToken.get(
     {
       pk: FileUploadToken.name,
@@ -24,14 +24,14 @@ const getSignedUploadUrl = async ({
     { consistent: true }
   );
 
-  const fileSizeLimit = getFileSizeLimit(filetype);
+  const fileSizeLimit = getFileSizeLimit(fileType);
 
   if (fileSizeLimit === 0) {
-    throw new BadRequest();
+    throw new createHttpError.BadRequest();
   }
 
   if (!Item) {
-    throw new Forbidden();
+    throw new createHttpError.Forbidden();
   }
 
   return await new Promise((resolve, reject) => {
@@ -45,7 +45,7 @@ const getSignedUploadUrl = async ({
         Conditions: [
           ["starts-with", "$key", `${uploadToken}/`],
           ["content-length-range", 10, fileSizeLimit],
-          { "Content-Type": filetype },
+          { "Content-Type": fileType },
         ],
       },
       (err, data) => {

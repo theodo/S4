@@ -5,15 +5,15 @@ const S3Client = new S3({ signatureVersion: "v4" });
 
 const getSignedDownloadUrl = async ({
   filePrefix,
-  filename,
+  fileName,
 }: {
   filePrefix: string;
-  filename: string;
+  fileName: string;
 }): Promise<{ downloadUrl: string }> => {
   return {
     downloadUrl: await S3Client.getSignedUrlPromise("getObject", {
       Bucket: process.env.BUCKET_NAME,
-      Key: `${filePrefix}/${filename}`,
+      Key: `${filePrefix}/${fileName}`,
     }),
   };
 };

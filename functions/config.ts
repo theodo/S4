@@ -1,3 +1,3 @@
-export { default as getSignedUploadUrl } from "./getSignedUploadUrl/config";
-export { default as dispatchFileUploadedEvent } from "./dispatchFileUploadedEvent/config";
-export { default as getSignedDownloadUrl } from "./getSignedDownloadUrl/config";
+export { getSignedUploadUrl } from "./getSignedUploadUrl/config";
+export { dispatchFileUploadedEvent } from "./dispatchFileUploadedEvent/config";
+export { getSignedDownloadUrl } from "./getSignedDownloadUrl/config";

@@ -1,4 +1,4 @@
-export default {
+export const getSignedUploadUrl = {
   handler: "functions/getSignedUploadUrl/handler.main",
   environment: {
     BUCKET_NAME: "${self:custom.bucketName}",
@@ -8,7 +8,7 @@ export default {
     {
       httpApi: {
         method: "GET",
-        path: "/api/get-signed-upload-url",
+        path: "/api/signed-upload-url",
       },
     },
   ],
