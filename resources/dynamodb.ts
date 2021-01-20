@@ -44,3 +44,13 @@ export const TokenTable: AWS["resources"]["Resources"]["value"] = {
     },
   },
 };
+
+export const TokenTableName: AWS["resources"]["Outputs"] = {
+  Value: { Ref: "TokenTable" },
+  Export: { Name: "TokenTable" },
+};
+
+export const TokenTableArn: AWS["resources"]["Outputs"] = {
+  Value: { "Fn::GetAtt": ["TokenTable", "Arn"] },
+  Export: { Name: "TokenTableArn" },
+};

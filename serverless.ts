@@ -7,7 +7,11 @@ import {
   getSignedDownloadUrl,
   dispatchFileUploadedEvent as dispatchFileUpload,
 } from "./functions/config";
-import { TokenTable } from "./resources/dynamodb";
+import {
+  TokenTable,
+  TokenTableName,
+  TokenTableArn,
+} from "./resources/dynamodb";
 import { EventBridge } from "./resources/event-bridge";
 
 const cloudformationResources: AWS["resources"]["Resources"] = {
@@ -38,12 +42,22 @@ const serverlessConfiguration: AWS = {
       {
         Effect: "Allow",
         Resource: [{ "Fn::GetAtt": ["TokenTable", "Arn"] }],
-        Action: ["dynamodb:Query", "dynamodb:GetItem", "dynamodb:DeleteItem"],
+        Action: [
+          "dynamodb:Query",
+          "dynamodb:GetItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:PutItem",
+        ],
       },
       {
         Effect: "Allow",
         Resource: [{ "Fn::GetAtt": ["EventBridge", "Arn"] }],
         Action: ["events:PutEvents"],
+      },
+      {
+        Effect: "Allow",
+        Resource: ["*"],
+        Action: ["lambda:InvokeFunction"],
       },
     ],
     httpApi: {
@@ -65,15 +79,23 @@ const serverlessConfiguration: AWS = {
       webpackConfig: "./webpack.config.js",
       includeModules: true,
     },
-    bucketName: ref(cloudformationResources, Bucket),
-    tokenTableName: ref(cloudformationResources, TokenTable),
+    bucketName: ref({ Bucket }),
+    tokenTableName: ref({ TokenTable }),
     tokenTableStreamArn: { "Fn::GetAtt": ["TokenTable", "StreamArn"] },
     tokenTableArn: { "Fn::GetAtt": ["TokenTable", "Arn"] },
-    eventBusName: ref(cloudformationResources, EventBridge),
-    eventBridgeArn: { "Fn::GetAtt": ["EventBridge", "Arn"] },
+    eventBusName: ref({ EventBridge }),
+    eventBridgeArn:
+      "arn:aws:events:#{AWS::Region}:#{AWS::AccountId}:event-bus/s4",
+    getSignedDownloadUrlArn: {
+      "Fn::GetAtt": ["GetSignedDownloadUrlLambdaFunction", "Arn"],
+    },
   },
   resources: {
     Resources: cloudformationResources,
+    Outputs: {
+      TokenTableName,
+      TokenTableArn,
+    },
   },
 };
 

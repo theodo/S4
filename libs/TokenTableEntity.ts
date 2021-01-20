@@ -21,7 +21,7 @@ const INDEXES = Object.values(LSI).reduce(
   {}
 );
 
-export const TokenTable = new Table({
+export const TokenTableEntity = new Table({
   name: process.env.TOKEN_TABLE_NAME,
   partitionKey: PRIMARY_KEY,
   sortKey: SORT_KEY,

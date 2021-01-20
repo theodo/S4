@@ -1,6 +1,7 @@
 import { Entity } from "dynamodb-toolbox";
 import dayjs from "dayjs";
-import { TokenTable } from "../resources/dynamodb";
+
+import { TokenTableEntity } from "./TokenTableEntity";
 
 const FileUploadToken = new Entity({
   name: "FileUploadToken",
@@ -12,7 +13,7 @@ const FileUploadToken = new Entity({
     email: "string",
     _ttl: { default: () => dayjs().add(5, "minute").unix() },
   },
-  table: TokenTable,
+  table: TokenTableEntity,
 });
 
 export default FileUploadToken;

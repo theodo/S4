@@ -44,23 +44,23 @@ export const main = async (event: S3Event): Promise<void> => {
           pk: FileUploadToken.name,
           uploadToken,
         },
-        { consistent: true }
+        { consistent: true, attributes: ["ressourceName"] }
       );
 
       if (!Item) {
         return;
       }
 
+      const { ressourceName } = Item;
+
       const newEvent = {
-        Source: "S4-events",
-        DetailType: `${Item.ressourceName}_FILE_UPLOADED`,
+        Source: "s4-events",
+        DetailType: `${ressourceName}_FILE_UPLOADED`,
         Detail: JSON.stringify({
-          payload: {
-            bucketName,
-            filename,
-            fileSize,
-            ...Item,
-          },
+          bucketName,
+          filename,
+          fileSize,
+          filePrefix: uploadToken,
         }),
         EventBusName: process.env.EVENT_BUS_NAME,
       };

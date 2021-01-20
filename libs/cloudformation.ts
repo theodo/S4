@@ -1,15 +1,9 @@
-import { AWS } from "@serverless/typescript";
-import { findKey } from "lodash";
-
-interface CloudFormationReference {
-  Ref: string;
-}
-
-export const ref = (
-  resources: AWS["resources"]["Resources"],
-  referencedResource: AWS["resources"]["Resources"]["value"]
-): CloudFormationReference => {
-  return {
-    Ref: findKey(resources, (resource) => referencedResource === resource),
-  };
+export const ref = <R extends Record<string, unknown>>(
+  resource: R
+): Record<"Ref", keyof R> => {
+  if (Object.keys(resource).length !== 1) {
+    throw new Error("Ref can only be used on one resource");
+  }
+  const [resourceName] = Object.keys(resource) as (keyof R)[];
+  return { Ref: resourceName };
 };
