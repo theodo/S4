@@ -18,7 +18,7 @@ export const main = async (event: S3Event): Promise<void> => {
     event.Records.map(async (eventRecord: S3EventRecord) => {
       const bucketName = eventRecord.s3.bucket.name;
       const objectKey = urlDecode(eventRecord.s3.object.key);
-      const [uploadToken, filename] = objectKey.split("/");
+      const [uploadToken, fileName] = objectKey.split("/");
       const fileSize = eventRecord.s3.object.size;
 
       const s3Tokenizer = await makeTokenizer(S3Client, {
@@ -28,7 +28,7 @@ export const main = async (event: S3Event): Promise<void> => {
 
       const { ext } = await FileType.fromTokenizer(s3Tokenizer);
 
-      if (ext !== filename.split(".").slice(-1)[0]) {
+      if (ext !== fileName.split(".").slice(-1)[0]) {
         await S3Client.deleteObject({
           Bucket: bucketName,
           Key: objectKey,
@@ -58,9 +58,10 @@ export const main = async (event: S3Event): Promise<void> => {
         DetailType: `${ressourceName}_FILE_UPLOADED`,
         Detail: JSON.stringify({
           bucketName,
-          filename,
+          fileName,
           fileSize,
           filePrefix: uploadToken,
+          fileType: ext,
         }),
         EventBusName: process.env.EVENT_BUS_NAME,
       };

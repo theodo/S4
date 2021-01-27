@@ -1,4 +1,4 @@
-export default {
+export const dispatchFileUploadedEvent = {
   handler: "functions/dispatchFileUploadedEvent/handler.main",
   environment: {
     EVENT_BUS_NAME: "${self:custom.eventBusName}",

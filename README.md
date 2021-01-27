@@ -56,15 +56,15 @@ TODO
     ressourceName: string,
     email: string,
     bucketName: string,
-    filename: string,
+    fileName: string,
     fileSize: number,
 }
 ```
 
-- **A getSignedDownloadUrl handler:** this handler may be invoked by an http endpoint of your project to generate a downloadUrl provided the filename and uploadToken used to upload the file.
+- **A getSignedDownloadUrl handler:** this handler may be invoked by an http endpoint of your project to generate a downloadUrl provided the fileName and uploadToken used to upload the file.
 
 ```ts
-async (filePrefix: string, filename: string): Promise<{ downloadUrl: string }>
+async (filePrefix: string, fileName: string): Promise<{ downloadUrl: string }>
 ```
 
 ### Flowchart

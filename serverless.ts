@@ -7,6 +7,7 @@ import {
   getSignedDownloadUrl,
   dispatchFileUploadedEvent as dispatchFileUpload,
 } from "./functions/config";
+
 import {
   TokenTable,
   TokenTableName,
@@ -56,7 +57,8 @@ const serverlessConfiguration: AWS = {
       },
       {
         Effect: "Allow",
-        Resource: ["*"],
+        Resource:
+          "arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-getSignedDownloadUrl",
         Action: ["lambda:InvokeFunction"],
       },
     ],
