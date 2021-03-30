@@ -45,17 +45,25 @@ This Lambda should check wether the uploader is allowed to upload a file. Then i
 **What is necessary to implement?** Store an upload token in the DynamoDB tokens table and return it to the uploader.
 **What does it do in the example?** The lambda is triggered by an API Gateway Get event with a query string parameter namethat should contain "allowMe" to deliver a uuid v4 token.
 
+[See requestUploadToken code](../examples/allowMe/requestUploadToken/handler.ts)
+
 ### The onFileUploaded Lambda
 
 This Lambda is triggered by the `FILE_UPLOADED` EventBridge event and receives the file metadata as payload of the event.
 **What is necessary to implement?** You will want to store, in any database, any data needed to retrieve informations about the uploaded file later.
 **What does it do in the example?** It stores all the uploaded file metadata into the table shipped with S4.
 
+[See onFileUploaded code](../examples/allowMe/onFileUploaded/handler.ts)
+
 ### The getDownloadUrl Lambda
 
 This Lambda checks that the user is allowed to download the file, requested by its file prefix, and invoke another Lambda to generate a signed download URL.
 **What is necessary to implement?** Invoke the `getSignedDownloadUrl` Lambda with `{ filePrefix, fileName }` as argument and return the signed download URL.
 **What does it do in the example?** The lambda is triggered by an API Gateway Get event with a query string parameter name that should containe "allowMe" to request and return the download url.
+
+[See getDownloadUrl code](../examples/allowMe/getDownloadUrl/handler.ts)
+
+### Test your service
 
 Let's deploy S4, upload and download a pdf
 
@@ -143,6 +151,8 @@ Let's deploy S4, upload and download a pdf
 ### Bonus: the listFiles Lambda
 
 This Lambda queries uploaded files metadata to display a list of files available to download in the following React component example :
+
+[See listFiles code](../examples/allowMe/listFiles/handler.ts)
 
 ## Architecture
 
