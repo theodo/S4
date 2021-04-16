@@ -9,7 +9,7 @@
     "node": ">=14.16.0",
     "npm": ">=7.5.4"
   },
-  "scripts":{
+  "scripts": {
     "test": "jest"
   },
   "dependencies": {
