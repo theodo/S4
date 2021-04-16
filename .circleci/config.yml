@@ -9,6 +9,22 @@ jobs:
     steps:
       - checkout
       - node/install-packages
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - node_modules
+  test: 
+    executor: 
+      name: node/default
+      tag: 14.16.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: "Running unit tests"
+          command: npm run test
+          working_directory: ~/project
 workflows:
   test:
     when:
@@ -16,3 +32,7 @@ workflows:
         equal: [master, <<pipeline.git.branch>>]
     jobs:
       - install
+      - test:
+          requires: 
+            - install
+
