@@ -6,9 +6,14 @@ export const getSignedUploadUrl = {
   },
   events: [
     {
-      httpApi: {
+      http: {
         method: "GET",
         path: "/api/signed-upload-url",
+        authorizer: {
+          name: "getUploadUrlAuthorizer",
+          type: "request",
+          identitySource: "method.request.querystring.name",
+        },
       },
     },
   ],

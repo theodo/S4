@@ -14,6 +14,12 @@ import {
   TokenTableArn,
 } from "./resources/dynamodb";
 import { EventBridge } from "./resources/event-bridge";
+import {
+  getDownloadUrlAuthorizer,
+  getUploadUrlAuthorizer,
+  onFileUploaded,
+  listFiles,
+} from "./examples/allowMe/functions/config";
 
 const cloudformationResources: AWS["resources"]["Resources"] = {
   Bucket,
@@ -67,14 +73,18 @@ const serverlessConfiguration: AWS = {
       cors: {
         allowedOrigins: ["*"],
         allowedHeaders: ["Content-Type", "Origin"],
-        allowedMethods: ["POST", "OPTIONS"],
+        allowedMethods: ["POST", "OPTIONS", "GET"],
       },
     },
   },
   functions: {
+    getDownloadUrlAuthorizer,
+    getUploadUrlAuthorizer,
     getSignedUploadUrl,
     getSignedDownloadUrl,
     dispatchFileUpload,
+    onFileUploaded,
+    listFiles,
   },
   custom: {
     webpack: {
@@ -90,6 +100,9 @@ const serverlessConfiguration: AWS = {
       "arn:aws:events:#{AWS::Region}:#{AWS::AccountId}:event-bus/s4",
     getSignedDownloadUrlArn: {
       "Fn::GetAtt": ["GetSignedDownloadUrlLambdaFunction", "Arn"],
+    },
+    getSignedUploadUrlArn: {
+      "Fn::GetAtt": ["GetSignedUploadUrlLambdaFunction", "Arn"],
     },
   },
   resources: {
