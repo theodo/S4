@@ -4,10 +4,9 @@ export default {
     queryStringParameters: {
       type: "object",
       properties: {
-        uploadToken: { type: "string" },
         fileType: { type: "string" },
       },
-      required: ["uploadToken", "fileType"],
+      required: ["fileType"],
     },
   },
   required: ["queryStringParameters"],
