@@ -16,7 +16,7 @@ export const main = async (event: S3Event): Promise<void> => {
     event.Records.map(async (eventRecord: S3EventRecord) => {
       const bucketName = eventRecord.s3.bucket.name;
       const objectKey = urlDecode(eventRecord.s3.object.key);
-      const [uploadToken, fileName] = objectKey.split("/");
+      const [filePrefix, fileName] = objectKey.split("/");
       const fileSize = eventRecord.s3.object.size;
 
       const s3Tokenizer = await makeTokenizer(S3Client, {
@@ -44,12 +44,12 @@ export const main = async (event: S3Event): Promise<void> => {
           bucketName,
           fileName,
           fileSize,
-          filePrefix: uploadToken,
+          filePrefix,
           fileType: ext,
         }),
         EventBusName: process.env.EVENT_BUS_NAME,
       };
-      putEventsPayload[uploadToken] = newEvent;
+      putEventsPayload[filePrefix] = newEvent;
     })
   );
 

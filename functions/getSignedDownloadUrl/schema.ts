@@ -4,10 +4,11 @@ export default {
     queryStringParameters: {
       type: "object",
       properties: {
-        fileType: { type: "string" },
+        filePrefix: { type: "string" },
+        fileName: { type: "string" },
         name: { type: "string" },
       },
-      required: ["fileType", "name"],
+      required: ["filePrefix", "fileName", "name"],
     },
   },
   required: ["queryStringParameters"],

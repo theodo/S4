@@ -21,7 +21,7 @@ export const LSI = {
   },
 };
 
-export const TokenTable: AWS["resources"]["Resources"]["value"] = {
+export const FileTable: AWS["resources"]["Resources"]["value"] = {
   Type: "AWS::DynamoDB::Table",
   Properties: {
     AttributeDefinitions: [
@@ -45,12 +45,12 @@ export const TokenTable: AWS["resources"]["Resources"]["value"] = {
   },
 };
 
-export const TokenTableName: AWS["resources"]["Outputs"] = {
-  Value: { Ref: "TokenTable" },
-  Export: { Name: "TokenTable" },
+export const FileTableName: AWS["resources"]["Outputs"] = {
+  Value: { Ref: "FileTable" },
+  Export: { Name: "FileTable" },
 };
 
-export const TokenTableArn: AWS["resources"]["Outputs"] = {
-  Value: { "Fn::GetAtt": ["TokenTable", "Arn"] },
-  Export: { Name: "TokenTableArn" },
+export const FileTableArn: AWS["resources"]["Outputs"] = {
+  Value: { "Fn::GetAtt": ["FileTable", "Arn"] },
+  Export: { Name: "FileTableArn" },
 };

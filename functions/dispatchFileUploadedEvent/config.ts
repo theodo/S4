@@ -2,7 +2,7 @@ export const dispatchFileUploadedEvent = {
   handler: "functions/dispatchFileUploadedEvent/handler.main",
   environment: {
     EVENT_BUS_NAME: "${self:custom.eventBusName}",
-    TOKEN_TABLE_NAME: "${self:custom.tokenTableName}",
+    FILE_TABLE_NAME: "${self:custom.fileTableName}",
   },
   events: [
     {
