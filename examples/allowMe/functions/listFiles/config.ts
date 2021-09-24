@@ -1,7 +1,7 @@
 export const listFiles = {
   handler: "examples/allowMe/functions/listFiles/handler.main",
   environment: {
-    TOKEN_TABLE_NAME: "${self:custom.tokenTableName}",
+    FILE_TABLE_NAME: "${self:custom.fileTableName}",
   },
   events: [
     {

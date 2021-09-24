@@ -5,8 +5,6 @@ import { S3 } from "aws-sdk";
 import FileType from "file-type";
 import { makeTokenizer } from "@tokenizer/s3";
 
-import FileUploadToken from "../../libs/FileUploadTokenEntity";
-
 const S3Client = new S3({ signatureVersion: "v4" });
 const eventBridge = new EventBridge();
 
@@ -18,7 +16,7 @@ export const main = async (event: S3Event): Promise<void> => {
     event.Records.map(async (eventRecord: S3EventRecord) => {
       const bucketName = eventRecord.s3.bucket.name;
       const objectKey = urlDecode(eventRecord.s3.object.key);
-      const [uploadToken, fileName] = objectKey.split("/");
+      const [filePrefix, fileName] = objectKey.split("/");
       const fileSize = eventRecord.s3.object.size;
 
       const s3Tokenizer = await makeTokenizer(S3Client, {
@@ -39,33 +37,19 @@ export const main = async (event: S3Event): Promise<void> => {
         return;
       }
 
-      const { Item } = await FileUploadToken.get(
-        {
-          pk: FileUploadToken.name,
-          uploadToken,
-        },
-        { consistent: true, attributes: ["ressourceName"] }
-      );
-
-      if (!Item) {
-        return;
-      }
-
-      const { ressourceName } = Item;
-
       const newEvent = {
         Source: "s4-events",
-        DetailType: `${ressourceName}_FILE_UPLOADED`,
+        DetailType: `FILE_UPLOADED`,
         Detail: JSON.stringify({
           bucketName,
           fileName,
           fileSize,
-          filePrefix: uploadToken,
+          filePrefix,
           fileType: ext,
         }),
         EventBusName: process.env.EVENT_BUS_NAME,
       };
-      putEventsPayload[uploadToken] = newEvent;
+      putEventsPayload[filePrefix] = newEvent;
     })
   );
 
@@ -73,13 +57,5 @@ export const main = async (event: S3Event): Promise<void> => {
     await eventBridge
       .putEvents({ Entries: Object.values(putEventsPayload) })
       .promise();
-    await Promise.all(
-      Object.keys(putEventsPayload).map((uploadToken) =>
-        FileUploadToken.delete({
-          pk: FileUploadToken.name,
-          sk: uploadToken,
-        })
-      )
-    );
   }
 };

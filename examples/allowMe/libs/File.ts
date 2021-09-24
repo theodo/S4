@@ -1,5 +1,6 @@
 import { Entity } from "dynamodb-toolbox";
-import { TokenTableEntity } from "../../../libs/TokenTableEntity";
+
+import { FileTableEntity } from "../../../libs/FileTableEntity";
 
 export const File = new Entity({
   name: "File",
@@ -11,5 +12,5 @@ export const File = new Entity({
     fileType: "string",
     bucketName: "string",
   },
-  table: TokenTableEntity,
+  table: FileTableEntity,
 });

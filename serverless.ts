@@ -8,16 +8,18 @@ import {
   dispatchFileUploadedEvent as dispatchFileUpload,
 } from "./functions/config";
 
-import {
-  TokenTable,
-  TokenTableName,
-  TokenTableArn,
-} from "./resources/dynamodb";
+import { FileTable, FileTableName, FileTableArn } from "./resources/dynamodb";
 import { EventBridge } from "./resources/event-bridge";
+import {
+  getDownloadUrlAuthorizer,
+  getUploadUrlAuthorizer,
+  onFileUploaded,
+  listFiles,
+} from "./examples/allowMe/functions/config";
 
 const cloudformationResources: AWS["resources"]["Resources"] = {
   Bucket,
-  TokenTable,
+  FileTable,
   EventBridge,
 };
 
@@ -42,7 +44,7 @@ const serverlessConfiguration: AWS = {
       },
       {
         Effect: "Allow",
-        Resource: [{ "Fn::GetAtt": ["TokenTable", "Arn"] }],
+        Resource: [{ "Fn::GetAtt": ["FileTable", "Arn"] }],
         Action: [
           "dynamodb:Query",
           "dynamodb:GetItem",
@@ -55,26 +57,24 @@ const serverlessConfiguration: AWS = {
         Resource: [{ "Fn::GetAtt": ["EventBridge", "Arn"] }],
         Action: ["events:PutEvents"],
       },
-      {
-        Effect: "Allow",
-        Resource:
-          "arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-getSignedDownloadUrl",
-        Action: ["lambda:InvokeFunction"],
-      },
     ],
     httpApi: {
       payload: "2.0",
       cors: {
         allowedOrigins: ["*"],
         allowedHeaders: ["Content-Type", "Origin"],
-        allowedMethods: ["POST", "OPTIONS"],
+        allowedMethods: ["POST", "OPTIONS", "GET"],
       },
     },
   },
   functions: {
+    getDownloadUrlAuthorizer,
+    getUploadUrlAuthorizer,
     getSignedUploadUrl,
     getSignedDownloadUrl,
     dispatchFileUpload,
+    onFileUploaded,
+    listFiles,
   },
   custom: {
     webpack: {
@@ -82,21 +82,24 @@ const serverlessConfiguration: AWS = {
       includeModules: true,
     },
     bucketName: ref({ Bucket }),
-    tokenTableName: ref({ TokenTable }),
-    tokenTableStreamArn: { "Fn::GetAtt": ["TokenTable", "StreamArn"] },
-    tokenTableArn: { "Fn::GetAtt": ["TokenTable", "Arn"] },
+    fileTableName: ref({ FileTable }),
+    fileTableStreamArn: { "Fn::GetAtt": ["FileTable", "StreamArn"] },
+    fileTableArn: { "Fn::GetAtt": ["FileTable", "Arn"] },
     eventBusName: ref({ EventBridge }),
     eventBridgeArn:
       "arn:aws:events:#{AWS::Region}:#{AWS::AccountId}:event-bus/s4",
     getSignedDownloadUrlArn: {
       "Fn::GetAtt": ["GetSignedDownloadUrlLambdaFunction", "Arn"],
     },
+    getSignedUploadUrlArn: {
+      "Fn::GetAtt": ["GetSignedUploadUrlLambdaFunction", "Arn"],
+    },
   },
   resources: {
     Resources: cloudformationResources,
     Outputs: {
-      TokenTableName,
-      TokenTableArn,
+      FileTableName,
+      FileTableArn,
     },
   },
 };

@@ -1,7 +1,7 @@
 export const onFileUploaded = {
   handler: "examples/allowMe/functions/onFileUploaded/handler.main",
   environment: {
-    TOKEN_TABLE_NAME: "${self:custom.tokenTableName}",
+    FILE_TABLE_NAME: "${self:custom.fileTableName}",
   },
   events: [
     {
@@ -9,7 +9,7 @@ export const onFileUploaded = {
         eventBus: "${self:custom.eventBridgeArn}",
         pattern: {
           source: ["s4-events"],
-          "detail-type": ["TEST_FILE_UPLOADED"],
+          "detail-type": ["FILE_UPLOADED"],
         },
       },
     },
