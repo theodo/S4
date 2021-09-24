@@ -1,6 +1,6 @@
 # S4: Serverless Simple Storage Service
 
-**S4** is a serverless stack designed to deploy minimal [AWS](https://aws.amazon.com) resources to safely handle file upload and download for any application.
+**S4** is a serverless stack designed to deploy minimal [AWS](https://aws.amazon.com) resources to safely handle file upload and download for any application with different Access Control Lists for upload and download.
 
 The three core functionalities of S4 are:
 
@@ -31,21 +31,19 @@ cd myService && serverless deploy
 
 ## Tutorial: simple example to use S4
 
-Let's use S4 to implement a file upload/download service with a trivial authorization mechanism. Every user that has the string "allowMe" in their name can upload and download any file. It is the "allowMe" example in S4 repository.
+Let's use S4 to implement a file upload/download service with a trivial authorization mechanism. Every user that has the string "allowMeToUpload" in their name can upload. With "allowMeToDownload" they can download any previously uploaded file. It is the "allowMe" example in S4 repository.
 
 ### Quickly set up S4 and test "allowMe" example
 
-If you want to test this trivial example with a simplistic frontend app please visit the following repository. It contains a simple React upload component to upload, download and display a list of files as well as a small Readme to set up the project.
+The allow me examples in the [examples](examples)
 
-https://github.com/trigaut/Serverless-React-Upload-Example
+### The getUploadUrlAuthorizer Lambda
 
-### The requestUploadToken Lambda
+This Api Gateway Lambda custom authorizer checks that the user is allowed to upload a file and invoke another Lambda to generate a signed upload URL.
+**What is necessary to implement?** The access control strategy in the `getUploadUrlAuthorizer` code. Currently it uses the queryStringParameters of the request but it could be any [Api Gateway Lambda custom authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html).
+**What does it do in the example?** The lambda is triggered by an API Gateway Get event with a query string parameter name that should containe "allowMeToUpload" to request and return the download url.
 
-This Lambda should check wether the uploader is allowed to upload a file. Then it rejects the request or generates an upload token, stores it in a table and returns it to the uploader.
-**What is necessary to implement?** Store an upload token in the DynamoDB tokens table and return it to the uploader.
-**What does it do in the example?** The lambda is triggered by an API Gateway Get event with a query string parameter namethat should contain "allowMe" to deliver a uuid v4 token.
-
-[See requestUploadToken code](../examples/allowMe/requestUploadToken/handler.ts)
+[See getUploadUrlAuthorizer code](examples/allowMe/functions/getUploadUrlAuthorizer/handler.ts)
 
 ### The onFileUploaded Lambda
 
@@ -53,15 +51,15 @@ This Lambda is triggered by the `FILE_UPLOADED` EventBridge event and receives t
 **What is necessary to implement?** You will want to store, in any database, any data needed to retrieve informations about the uploaded file later.
 **What does it do in the example?** It stores all the uploaded file metadata into the table shipped with S4.
 
-[See onFileUploaded code](../examples/allowMe/onFileUploaded/handler.ts)
+[See onFileUploaded code](examples/allowMe/functions/onFileUploaded/handler.ts)
 
-### The getDownloadUrl Lambda
+### The getDownloadUrlAuthorizer Lambda
 
-This Lambda checks that the user is allowed to download the file, requested by its file prefix, and invoke another Lambda to generate a signed download URL.
-**What is necessary to implement?** Invoke the `getSignedDownloadUrl` Lambda with `{ filePrefix, fileName }` as argument and return the signed download URL.
-**What does it do in the example?** The lambda is triggered by an API Gateway Get event with a query string parameter name that should containe "allowMe" to request and return the download url.
+This Api Gateway Lambda custom authorizer checks that the user is allowed to download the file, requested by its file prefix, and invoke another Lambda to generate a signed download URL.
+**What is necessary to implement?** The access control strategy in the `getDownloadUrlAuthorizer` code. Currently it uses the queryStringParameters of the request but it could be any [Api Gateway Lambda custom authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html).
+**What does it do in the example?** The lambda is triggered by an API Gateway Get event with a query string parameter name that should containe "allowMeToDownload" to request and return the download url.
 
-[See getDownloadUrl code](../examples/allowMe/getDownloadUrl/handler.ts)
+[See getDownloadUrlAuthorizer code](examples/allowMe/functions/getDownloadUrlAuthorizer/handler.ts)
 
 ### Test your service
 
@@ -73,25 +71,11 @@ Let's deploy S4, upload and download a pdf
    yarn sls deploy
    ```
 
-2. Request an upload token
-
+2. Request an upload url
    **Request:**
 
    ```bash
-   curl 'https://{API_GATEWAY_ID}.execute-api.{REGION}.amazonaws.com/api/upload-token?name=allowMe'
-   ```
-
-   **Response:**
-
-   ```json
-   { "uploadToken": { UPLOAD_TOKEN } }
-   ```
-
-3. Request a presigned upload URL
-   **Request:**
-
-   ```bash
-   curl "https://{API_GATEWAY_ID}.execute-api.{REGION}.amazonaws.com/api/signed-upload-url?uploadToken={UPLOAD_TOKEN}&fileType=application/pdf"
+   curl 'https://{API_GATEWAY_ID}.execute-api.{REGION}.amazonaws.com/{STAGE}/api/signed-upload-url?name=allowMeToUpload&fileType=application/pdf'
    ```
 
    **Response:**
@@ -108,15 +92,16 @@ Let's deploy S4, upload and download a pdf
        "X-Amz-Security-Token": { X_AMZ_SECURITY_TOKEN },
        "Policy": { POLICY },
        "X-Amz-Signature": { X_AMZ_SIGNATURE }
-     }
+     },
+     "filePrefix": { FILE_PREFIX }
    }
    ```
 
-4. Upload the file
+3. Upload the file
 
 ```bash
    curl --request POST { PRESIGNED_UPLOAD_URL }\
-   --form 'key="{ UPLOAD_TOKEN }/${filename}"' \
+   --form 'key="{ FILE_PREFIX }/${filename}"' \
    --form 'bucket={ BUCKET_NAME }' \
    --form 'x-amz-storage-class={ X_AMZ_STORAGE_CLASS }' \
    --form 'Content-Type="application/pdf"' \
@@ -129,12 +114,12 @@ Let's deploy S4, upload and download a pdf
    --form 'file=@{ PATH_TO_FILE }'
 ```
 
-5. Request a download URL
+4. Request a download URL
 
    **Request:**
 
    ```bash
-   curl "https://{API_GATEWAY_ID}.execute-api.{REGION}.amazonaws.com/api/download-url?fileId={ UPLOAD_TOKEN }&name=allowMe"
+   curl "https://{API_GATEWAY_ID}.execute-api.{REGION}.amazonaws.com/{STAGE}/api/download-url?filePrefix={FILE_PREFIX}&filename={FILENAME}&name=allowMeToDownload"
    ```
 
    **Response:**
@@ -143,7 +128,7 @@ Let's deploy S4, upload and download a pdf
    { "downloadUrl": { DOWNLOAD_URL } }
    ```
 
-6. Download the file
+5. Download the file
 
 ```bash
    curl { DOWNLOAD_URL } --output downloaded_file.pdf
@@ -153,15 +138,15 @@ Let's deploy S4, upload and download a pdf
 
 This Lambda queries uploaded files metadata to display a list of files available to download in the following React component example :
 
-[See listFiles code](../examples/allowMe/listFiles/handler.ts)
+[See listFiles code](examples/allowMe/functions/listFiles/handler.ts)
 
 ## Architecture
 
 ### Resources
 
 - **A S3 bucket:** a S3 bucket to _store the files_ of end users.
-- **A token table:** a Dynamodb table to store _file upload tokens_. These tokens are use to verify that the end user is allowed to upload a file.
-- **A getSignedUploadUrl http endpoint:** an endpoint on the route `/api/get-signed-upload-url?uploadToken=UPLOAD_TOKEN&fileType=FILTE_TYPE` that verifies that the upload token is in the token table and returns a presigned POST url to upload a file directly to the S3 bucket.
+- **A Files metadata table:** a Dynamodb table to store _uploaded files metadat_. These metadata is used to to retrieve the files after their upload
+- **A getSignedUploadUrl http endpoint:** an endpoint on the route `/api/get-signed-upload-url?fileType=FILTE_TYPE&name=NAME` that verifies that the user is allowed to upload files,using the name query string parameter, and returns a presigned POST url to upload a file directly to the S3 bucket.
 
 - **A dispatchFileUploadedEvent handler and an event bridge:** a handler that dispatches a `FILE_UPLOADED` event in an event bridge. This event may be used to trigger any lambda. The payload of the event contains:
 
@@ -177,11 +162,7 @@ This Lambda queries uploaded files metadata to display a list of files available
 }
 ```
 
-- **A getSignedDownloadUrl handler:** this handler may be invoked by an http endpoint of your project to generate a downloadUrl provided the fileName and uploadToken used to upload the file.
-
-```ts
-async (filePrefix: string, fileName: string): Promise<{ downloadUrl: string }>
-```
+- **A getSignedDownloadUrl http endpoint:** an endpoint on the route `/api/get-signed-download-url?filePrefix=FILTE_PREFIX&fileName=FILE_NAME&name=NAME` that verifies that the user is allowed to download files, using the name query string parameter, and returns a presigned POST url to download a file directly to the S3 bucket.
 
 ### Flowchart
 
