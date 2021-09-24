@@ -10,7 +10,7 @@
     "npm": ">=7.5.4"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@middy/core": "^1.0.0",
