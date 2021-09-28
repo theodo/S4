@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "a1dc77fd-487b-4f11-b246-ec777bcd9276",
+		"name": "S4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getSignedUploadUrl",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://7ywykyx1za.execute-api.eu-west-1.amazonaws.com/dev/api/signed-upload-url?fileType=application/pdf&name=allowMeToUpload",
+					"protocol": "https",
+					"host": [
+						"7ywykyx1za",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"signed-upload-url"
+					],
+					"query": [
+						{
+							"key": "fileType",
+							"value": "application/pdf"
+						},
+						{
+							"key": "name",
+							"value": "allowMeToUpload"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getSignedDownloadUrl",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://7ywykyx1za.execute-api.eu-west-1.amazonaws.com/dev/api/signed-download-url?name=allowMeToDownload&filePrefix=ced50ff1-26eb-468a-92a8-373ad0535fbf&fileName=2021_09_20 - Asakai.pdf",
+					"protocol": "https",
+					"host": [
+						"7ywykyx1za",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"signed-download-url"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "allowMeToDownload"
+						},
+						{
+							"key": "filePrefix",
+							"value": "ced50ff1-26eb-468a-92a8-373ad0535fbf"
+						},
+						{
+							"key": "fileName",
+							"value": "2021_09_20 - Asakai.pdf"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "uploadFile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Content-Type",
+							"value": "application/pdf",
+							"type": "text"
+						},
+						{
+							"key": "key",
+							"value": "ced50ff1-26eb-468a-92a8-373ad0535fbf/${filename}",
+							"type": "text"
+						},
+						{
+							"key": "x-amz-storage-class",
+							"value": "INTELLIGENT_TIERING",
+							"type": "text"
+						},
+						{
+							"key": "bucket",
+							"value": "s4-dev-bucket-1ndom2jcnyhk9",
+							"type": "text"
+						},
+						{
+							"key": "X-Amz-Algorithm",
+							"value": "AWS4-HMAC-SHA256",
+							"type": "text"
+						},
+						{
+							"key": "X-Amz-Credential",
+							"value": "ASIA4IFK6X272FVF6FW3/20210924/eu-west-1/s3/aws4_request",
+							"type": "text"
+						},
+						{
+							"key": "X-Amz-Date",
+							"value": "20210924T115159Z",
+							"type": "text"
+						},
+						{
+							"key": "X-Amz-Security-Token",
+							"value": "IQoJb3JpZ2luX2VjENz//////////wEaCWV1LXdlc3QtMSJHMEUCIGEx4pPIvl4t3Z6H2YsjvFfRH3x0T5wap8cciPQr/k2oAiEAj7tzsVGE1wR2t4w892BNefAlWoY+HDgBeK8n10zpR4IqngIIRRABGgw4NDIxNzIxMjA3NjciDBjaj+MLt60M3D5mryr7AeKVePqdGQ9Z6DCK19Oj2omxGDW/3ngnzOT/S02F/KO91/gHxOoQ4AsEAex94EuoPR6guEqfs1BM5Z6eR+geY8G62/gGHtNd1T7RfVMyTbQOctaPeE8bngh1X6G8aBy1SUlL+OLD3ajACey+qHKZl4erVm5FhZg1XK/WpEEf9Yrq2U3tSzGF4C+qe46KTfD0dmB5EqzmQy/AeHMPZwDlGaDIeyxY0D6k3CX0wcwGwoUG0GwlPZ0+FhYkw3p0Sy5HYko7q3ZOe+dHemn1VCQXlGdE95vI58+YqvN1FTNQZVx7U5i+O2XYO86KIpgQ7gfS8ojHLjsMvXBFfnCHMN/3tooGOpoBwsUbPA7Adidxsr+Jl61VXJA9U35eDsU/V1i5iidjzTXiVmqacLYXe4uu0B0xwvnaJfsUJpuJBdN/KxOL/YvYaR1wcRzAbLLPTVgchjN6pt3sNMiYKWuACgMFtmIa2BBOwwwl3M+FY2aPfHmiztJnecYLEMqL68OKCWRxrxmwfqfrKyWhmyTH6z/uEofyk9rgTbIgVyJgBSNPEg==",
+							"type": "text"
+						},
+						{
+							"key": "Policy",
+							"value": "eyJleHBpcmF0aW9uIjoiMjAyMS0wOS0yNFQxMTo1Njo1OVoiLCJjb25kaXRpb25zIjpbWyJzdGFydHMtd2l0aCIsIiRrZXkiLCJjZWQ1MGZmMS0yNmViLTQ2OGEtOTJhOC0zNzNhZDA1MzVmYmYvIl0sWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsMTAsMTAwMDAwMDBdLHsiQ29udGVudC1UeXBlIjoiYXBwbGljYXRpb24vcGRmIn0seyJ4LWFtei1zdG9yYWdlLWNsYXNzIjoiSU5URUxMSUdFTlRfVElFUklORyJ9LHsiYnVja2V0IjoiczQtZGV2LWJ1Y2tldC0xbmRvbTJqY255aGs5In0seyJYLUFtei1BbGdvcml0aG0iOiJBV1M0LUhNQUMtU0hBMjU2In0seyJYLUFtei1DcmVkZW50aWFsIjoiQVNJQTRJRks2WDI3MkZWRjZGVzMvMjAyMTA5MjQvZXUtd2VzdC0xL3MzL2F3czRfcmVxdWVzdCJ9LHsiWC1BbXotRGF0ZSI6IjIwMjEwOTI0VDExNTE1OVoifSx7IlgtQW16LVNlY3VyaXR5LVRva2VuIjoiSVFvSmIzSnBaMmx1WDJWakVOei8vLy8vLy8vLy93RWFDV1YxTFhkbGMzUXRNU0pITUVVQ0lHRXg0cFBJdmw0dDNaNkgyWXNqdkZmUkgzeDBUNXdhcDhjY2lQUXIvazJvQWlFQWo3dHpzVkdFMXdSMnQ0dzg5MkJOZWZBbFdvWStIRGdCZUs4bjEwenBSNElxbmdJSVJSQUJHZ3c0TkRJeE56SXhNakEzTmpjaURCamFqK01MdDYwTTNENW1yeXI3QWVLVmVQcWRHUTlaNkRDSzE5T2oyb214R0RXLzNuZ256T1QvUzAyRi9LTzkxL2dIeE9vUTRBc0VBZXg5NEV1b1BSNmd1RXFmczFCTTVaNmVSK2dlWThHNjIvZ0dIdE5kMVQ3UmZWTXlUYlFPY3RhUGVFOGJuZ2gxWDZHOGFCeTFTVWxMK09MRDNhakFDZXkrcUhLWmw0ZXJWbTVGaFpnMVhLL1dwRUVmOVlycTJVM3RTekdGNEMrcWU0NktUZkQwZG1CNUVxem1ReS9BZUhNUFp3RGxHYURJZXl4WTBENmszQ1gwd2N3R3dvVUcwR3dsUFowK0ZoWWt3M3AwU3k1SFlrbzdxM1pPZStkSGVtbjFWQ1FYbEdkRTk1dkk1OCtZcXZOMUZUTlFaVng3VTVpK08yWFlPODZLSXBnUTdnZlM4b2pITGpzTXZYQkZmbkNITU4vM3Rvb0dPcG9Cd3NVYlBBN0FkaWR4c3IrSmw2MVZYSkE5VTM1ZURzVS9WMWk1aWlkanpUWGlWbXFhY0xZWGU0dXUwQjB4d3ZuYUpmc1VKcHVKQmROL0t4T0wvWXZZYVIxd2NSekFiTExQVFZnY2hqTjZwdDNzTk1pWUtXdUFDZ01GdG1JYTJCQk93d3dsM00rRlkyYVBmSG1penRKbmVjWUxFTXFMNjhPS0NXUnhyeG13ZnFmckt5V2hteVRINnovdUVvZnlrOXJnVGJJZ1Z5SmdCU05QRWc9PSJ9XX0=",
+							"type": "text"
+						},
+						{
+							"key": "X-Amz-Signature",
+							"value": "485a6b4fae99d796b1d034313cc8aa4fd5b87581099826ea09a594e11b4da232",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "MY_FILE.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://s3.eu-west-1.amazonaws.com/s4-dev-bucket-1ndom2jcnyhk9",
+					"protocol": "https",
+					"host": [
+						"s3",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"s4-dev-bucket-1ndom2jcnyhk9"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
