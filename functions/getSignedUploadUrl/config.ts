@@ -12,7 +12,7 @@ export const getSignedUploadUrl = {
         authorizer: {
           name: "getUploadUrlAuthorizer",
           type: "request",
-          identitySource: "method.request.querystring.name",
+          identitySource: "method.request.header.Authorization",
         },
       },
     },

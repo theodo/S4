@@ -3,11 +3,11 @@ import { APIGatewayRequestAuthorizerHandler } from "aws-lambda";
 import { generateInvokePolicyDocument } from "../../../../utils/authorizerUtils";
 
 export const main: APIGatewayRequestAuthorizerHandler = async (event) => {
-  const { name } = event.queryStringParameters;
+  const { Authorization: token } = event.headers;
 
   // Naive authentification strategy
-  // all requests with a queryStringParameter "name" containing the "allowMeToDownload" string are accepted
-  if (!name.includes("allowMeToDownload")) {
+  // all requests with a "token" containing the "allowMeToDownload" string are accepted
+  if (!token?.includes("allowMeToDownload")) {
     return generateInvokePolicyDocument(event.methodArn, "Deny");
   }
 

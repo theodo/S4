@@ -6,9 +6,8 @@ export default {
       properties: {
         filePrefix: { type: "string" },
         fileName: { type: "string" },
-        name: { type: "string" },
       },
-      required: ["filePrefix", "fileName", "name"],
+      required: ["filePrefix", "fileName"],
     },
   },
   required: ["queryStringParameters"],

@@ -8,10 +8,20 @@
 		{
 			"name": "getSignedUploadUrl",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "allowMeToUpload",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{API_GATEWAY_ID}}.execute-api.{{REGION}}.amazonaws.com/dev/api/signed-upload-url?fileType=application/pdf&name=allowMeToUpload",
+					"raw": "https://{{API_GATEWAY_ID}}.execute-api.{{REGION}}.amazonaws.com/dev/api/signed-upload-url?fileType=application/pdf",
 					"protocol": "https",
 					"host": [
 						"{{API_GATEWAY_ID}}",
@@ -32,7 +42,8 @@
 						},
 						{
 							"key": "name",
-							"value": "allowMeToUpload"
+							"value": "allowMeToUpload",
+							"disabled": true
 						}
 					]
 				}
@@ -42,10 +53,20 @@
 		{
 			"name": "getSignedDownloadUrl",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "allowMeToDownload",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{API_GATEWAY_ID}}.execute-api.{{REGION}}.amazonaws.com/dev/api/signed-download-url?name=allowMeToDownload&filePrefix={{FILE_PREFIX}}&fileName={{FILE_NAME}}",
+					"raw": "https://{{API_GATEWAY_ID}}.execute-api.{{REGION}}.amazonaws.com/dev/api/signed-download-url?filePrefix={{FILE_PREFIX}}&fileName={{FILE_NAME}}",
 					"protocol": "https",
 					"host": [
 						"{{API_GATEWAY_ID}}",
@@ -62,7 +83,8 @@
 					"query": [
 						{
 							"key": "name",
-							"value": "allowMeToDownload"
+							"value": "allowMeToDownload",
+							"disabled": true
 						},
 						{
 							"key": "filePrefix",
@@ -166,15 +188,15 @@
 		},
 		{
 			"key": "REGION",
-			"value": ""
+			"value": "eu-west-1"
 		},
 		{
 			"key": "FILE_PREFIX",
-			"value": ""
+			"value": "ced50ff1-26eb-468a-92a8-373ad0535fbf"
 		},
 		{
 			"key": "FILE_NAME",
-			"value": "test.pdf"
+			"value": "file.pdf"
 		},
 		{
 			"key": "BUCKET_NAME",
