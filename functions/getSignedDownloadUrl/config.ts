@@ -12,7 +12,7 @@ export const getSignedDownloadUrl = {
         authorizer: {
           name: "getDownloadUrlAuthorizer",
           type: "request",
-          identitySource: "method.request.querystring.name",
+          identitySource: "method.request.header.Authorization",
         },
       },
     },
